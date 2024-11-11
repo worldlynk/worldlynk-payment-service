@@ -1,0 +1,30 @@
+# version: '3.8'
+
+services:
+  payment-service:
+    build: .
+    ports:
+      - "4001:4001"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - RABBITMQ_EXCHANGE=payment_exchange
+      - PORT=4001
+    depends_on:
+      - rabbitmq
+    networks:
+      - my-shared-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"      # AMQP port for RabbitMQ connections
+      - "15672:15672"    # Management console port
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - my-shared-network
+
+networks:
+  my-shared-network:
+    external: true
