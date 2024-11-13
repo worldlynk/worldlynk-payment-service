@@ -7,7 +7,7 @@ const stripe = new Stripe(stripeSecretKey);
 async function createPaymentIntent(amount) {
   return await stripe.paymentIntents.create({
     amount,
-    currency: 'usd',
+    currency: 'gbp',
     payment_method_types: ['card'],
   });
 }
